@@ -15,8 +15,8 @@ public class CaseParkingGratuit extends CasePlateau{
 	}
 	
 	
-	/** Ne fait rien car il n'y a rien à faire sur cette case
-	 * @param Joueur Le joueur qui fait l'action
+	/** Ne fais rien, car il n'y a rien à faire sur cette case
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	@Override

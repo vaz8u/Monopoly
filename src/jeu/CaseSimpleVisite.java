@@ -15,7 +15,7 @@ public class CaseSimpleVisite extends CasePlateau{
 	}
 	
 	/** Fait l'action de la case
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 */
 	@Override
 	public void tache(Joueur joueur) {

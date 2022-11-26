@@ -24,8 +24,8 @@ public class Des {
 
 	/** Somme des dés pour le déplacement
 	 * 
-	 * @param des1
-	 * @param des2
+	 * @param des1 Premier dé
+	 * @param des2 Deuxième dé
 	 * @return la somme des deux entrées
 	 */
 	public int sommeDes(int des1, int des2) {
@@ -34,15 +34,12 @@ public class Des {
 
 	/** Si c'est un double, pour la prison et rejouer
 	 * 
-	 * @param des1
-	 * @param des2
-	 * @return vrai si des1==des2 | faux sinon
+	 * @param des1 Premier dé
+	 * @param des2 Deuxième dé
+	 * @return vrai si des1==des2, faux sinon
 	 */
 	public boolean estDouble(int des1, int des2) {
-		if (des1 == des2)
-			return true;
-		else
-			return false;
+		return des1 == des2;
 	}
 
 	// Getters et setters

@@ -15,7 +15,7 @@ public class CasePrison extends CasePlateau {
 	}
 	
 	/** Sortie de prison du joueur, déjà géré dans EventJouer
-	 * @param nom Nom du joueur
+	 * @param joueur Le joueur qui fait l'action
 	 * @param des entrÃ© necessaire pour les doubles
 	 */
 	public void sortiePrison(Joueur joueur, Des des) {
@@ -29,7 +29,7 @@ public class CasePrison extends CasePlateau {
 		}		
 	
 	/** Envoie le joueur en prison
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	@Override

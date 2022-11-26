@@ -12,7 +12,7 @@ public class CarteChance {
 	 */
 	private String phrase;
 	/**
-	 * Ou un nom de case, ou un chiffre pour payer/encaisser
+	 * Ou un nom de case ou un chiffre pour payer/encaisser
 	 */
 	private String deplacementConsequenses;
 	/**
@@ -34,8 +34,8 @@ public class CarteChance {
 
 	/** Selon le type de la carte, fait l'action de la carte
 	 * 
-	 * @param joueur
-	 * @param carte
+	 * @param joueur Joueur qui tire la carte
+	 * @param cartes Tas de carte
 	 * @param p Inutilisée ici
 	 * @throws jeuException
 	 */
@@ -43,71 +43,61 @@ public class CarteChance {
 		CarteChance carte = cartes.get(0); 
 		cartes.remove(0);
 		cartes.add(carte);
-		int i = 0;
-		switch (carte.getType()) {
-		case "PAYER":
-			i = Integer.parseInt(carte.getdeplacementConsequenses());
-			break;
-		case "ENCAISSER":
-			i = Integer.parseInt(carte.getdeplacementConsequenses());
-			break;
-		}
+		int i = switch (carte.getType()) {
+			case "PAYER" -> Integer.parseInt(carte.getdeplacementConsequenses());
+			case "ENCAISSER" -> Integer.parseInt(carte.getdeplacementConsequenses());
+			default -> 0;
+		};
 		System.out.println(carte.getPhrase());
 		switch (carte.getType()) {
-		case "PAYER":
-			joueur.setArgent(joueur.getArgent() - i);
-			break;
-		case "ENCAISSER":
-			joueur.setArgent(joueur.getArgent() + i);
-			break;
-		case "IMPOTS":
-			int totalI = 0;
-			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				totalI = totalI + 40 * joueur.getTerrainsPossede().get(y).getNbmaison();
-				if (joueur.getTerrainsPossede().get(y).isNbhotel())
-					totalI = totalI + 115;
+			case "PAYER" -> joueur.setArgent(joueur.getArgent() - i);
+			case "ENCAISSER" -> joueur.setArgent(joueur.getArgent() + i);
+			case "IMPOTS" -> {
+				int totalI = 0;
+				for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
+					totalI = totalI + 40 * joueur.getTerrainsPossede().get(y).getNbmaison();
+					if (joueur.getTerrainsPossede().get(y).isNbhotel())
+						totalI = totalI + 115;
+				}
 			}
-			break;
-		case "REPARATIONS":
-			int totalR = 0;
-			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				totalR = totalR + 25 * joueur.getTerrainsPossede().get(y).getNbmaison();
-				if (joueur.getTerrainsPossede().get(y).isNbhotel())
-					totalR = totalR + 100;
+			case "REPARATIONS" -> {
+				int totalR = 0;
+				for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
+					totalR = totalR + 25 * joueur.getTerrainsPossede().get(y).getNbmaison();
+					if (joueur.getTerrainsPossede().get(y).isNbhotel())
+						totalR = totalR + 100;
+				}
 			}
-			break;
-		case "LIBERATION":
-			joueur.setLiberation(true);
-			break;
-		case "DEPLACEMENT":
-			if (carte.getdeplacementConsequenses().equals("CASE DEPART")) {
-				joueur.setNumCaseActuelleADMIN(0);
-				joueur.setArgent(joueur.getArgent()+200);
+			case "LIBERATION" -> joueur.setLiberation(true);
+			case "DEPLACEMENT" -> {
+				if (carte.getdeplacementConsequenses().equals("CASE DEPART")) {
+					joueur.setNumCaseActuelleADMIN(0);
+					joueur.setArgent(joueur.getArgent() + 200);
+				}
+				if (carte.getdeplacementConsequenses().equals("BOULEVARD DE LA VILLETTE")) {
+					if (joueur.getNumCaseActuelle() > 11)
+						joueur.setArgent(joueur.getArgent() + 200);
+					joueur.setNumCaseActuelleADMIN(11);
+				}
+				if (carte.getdeplacementConsequenses().equals("PRISON")) {
+					joueur.setNumCaseActuelleADMIN(30);
+				}
+				if (carte.getdeplacementConsequenses().equals("RUE DE LA PAIX")) {
+					if (joueur.getNumCaseActuelle() > 39)
+						joueur.setArgent(joueur.getArgent() + 200);
+					joueur.setNumCaseActuelleADMIN(39);
+				}
+				if (carte.getdeplacementConsequenses().equals("AVENUE HENRI-MARTIN")) {
+					if (joueur.getNumCaseActuelle() > 24)
+						joueur.setArgent(joueur.getArgent() + 200);
+					joueur.setNumCaseActuelleADMIN(24);
+				}
+				if (carte.getdeplacementConsequenses().equals("GARE DE LYON")) {
+					if (joueur.getNumCaseActuelle() > 15)
+						joueur.setArgent(joueur.getArgent() + 200);
+					joueur.setNumCaseActuelleADMIN(15);
+				}
 			}
-			if (carte.getdeplacementConsequenses().equals("BOULEVARD DE LA VILLETTE")) {
-				if(joueur.getNumCaseActuelle()>11)
-					joueur.setArgent(joueur.getArgent()+200);
-				joueur.setNumCaseActuelleADMIN(11);
-			}
-			if (carte.getdeplacementConsequenses().equals("PRISON")) {
-				joueur.setNumCaseActuelleADMIN(30);
-			}
-			if (carte.getdeplacementConsequenses().equals("RUE DE LA PAIX")) {
-				if(joueur.getNumCaseActuelle()>39)
-					joueur.setArgent(joueur.getArgent()+200);
-				joueur.setNumCaseActuelleADMIN(39);
-			}
-			if (carte.getdeplacementConsequenses().equals("AVENUE HENRI-MARTIN")) {
-				if(joueur.getNumCaseActuelle()>24)
-					joueur.setArgent(joueur.getArgent()+200);
-				joueur.setNumCaseActuelleADMIN(24);
-			}
-			if (carte.getdeplacementConsequenses().equals("GARE DE LYON")) {
-				if(joueur.getNumCaseActuelle()>15)
-					joueur.setArgent(joueur.getArgent()+200);
-				joueur.setNumCaseActuelleADMIN(15);
-			}
-			break;
 		}
 	}
 

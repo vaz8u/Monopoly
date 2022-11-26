@@ -2,7 +2,7 @@
   <artifact type="jar" name="ARCHIVE:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/ARCHIVE_jar</output-path>
     <root id="archive" name="ARCHIVE.jar">
-      <element id="module-output" name="ARCHIVE" />
+      <element id="module-output" name="Monopoly" />
       <element id="extracted-dir" path="E:/Program Files (x86)/Java/javafx-sdk-17.0.1/lib/javafx-swt.jar" path-in-jar="/" />
       <element id="extracted-dir" path="E:/Program Files (x86)/Java/javafx-sdk-17.0.1/lib/javafx.web.jar" path-in-jar="/" />
       <element id="extracted-dir" path="E:/Program Files (x86)/Java/javafx-sdk-17.0.1/lib/javafx.base.jar" path-in-jar="/" />

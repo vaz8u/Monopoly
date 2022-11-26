@@ -34,8 +34,11 @@ import jeu.Joueur;
 import jeu.Plateau;
 import ui.Pion;
 import ui.UIPlateau;
-
+/**
+ * Classe principale de l'application Monopoly
+ */
 public class Monopoly extends Application {
+
 	public final static String ACTION_ACHAT_TERRAIN = "Acheter le terrain";
 	public final static String ACTION_GERER_MAISON = "Gerer les maisons et les hotels";
 	public final static String ACTION_PAYER_PRISON = "Payer pour sortir de prison";
@@ -43,6 +46,9 @@ public class Monopoly extends Application {
 	public final static String ACTION_PASSER = "Passer au suivant";
 	public final static String ACTION_JOUER = "Lancer les des";
 
+	/**
+	 * Liste de bouttons des joueurs
+	 */
 	private ArrayList<ToggleButton> tabBoutonsJoueurs = new ArrayList<ToggleButton>();
 
 	private UIPlateau uiPlateau;
@@ -106,6 +112,10 @@ public class Monopoly extends Application {
 		return grillePane;
 	}
 
+	/**
+	 * Affichage fenetre de la partie
+	 * @param primaryStage Stage
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -129,6 +139,10 @@ public class Monopoly extends Application {
 		}
 	}
 
+	/**
+	 * Initialisation de la partie droite de l'application
+	 * @param root BorderPane
+	 */
 	private void initPanneauDroit(BorderPane root) {
 		VBox panneauDroit = new VBox();
 		panneauDroit.setAlignment(Pos.TOP_CENTER);
@@ -143,6 +157,10 @@ public class Monopoly extends Application {
 		root.setRight(panneauDroit);
 	}
 
+	/**
+	 * Initialisation de la partie basse de l'application
+	 * @param root BorderPane
+	 */
 	private void initFooter(BorderPane root) {
 		HBox footer = new HBox();
 		footer.setAlignment(Pos.BASELINE_LEFT);
@@ -153,6 +171,10 @@ public class Monopoly extends Application {
 		root.setBottom(footer);
 	}
 
+	/**
+	 * Initialisation de la partie proprieté de l'application
+	 * @param panneauDroit VBox
+	 */
 	private void initZonePropriete(VBox panneauDroit) {
 		panneauDroit.getChildren().add(new Label(" "));
 
@@ -188,6 +210,10 @@ public class Monopoly extends Application {
 		panneauDroit.getChildren().add(proprietesJoueurCourant);
 	}
 
+	/**
+	 * Initialisation des boutons d'action de l'application
+	 * @param panneauDroit VBox
+	 */
 	private void initActions(VBox panneauDroit) {
 		VBox box = new VBox();
 
@@ -218,6 +244,10 @@ public class Monopoly extends Application {
 		panneauDroit.getChildren().add(box);
 	}
 
+	/**
+	 * Initialisation des dés de l'application
+	 * @param panneau VBox
+	 */
 	private void initDes(VBox panneau) {
 		Label des = new Label("Dés :");
 		tfDe1 = new TextField();
@@ -232,36 +262,48 @@ public class Monopoly extends Application {
 		panneau.getChildren().add(hb);
 	}
 
+	/**
+	 * Initialisation des boutons joueurs de l'application
+	 * @param panneau VBox
+	 */
 	private void initBoutonsJoueurs(VBox panneau) {
 		ToggleGroup group = new ToggleGroup();
 
 		HBox box = new HBox();
 		box.setMouseTransparent(true);
 
-		for (int i = 0; i < listeJoueurs.size(); i++) {
-
-			ToggleButton bJoueur = new ToggleButton(listeJoueurs.get(i).getNom());
+		for (Joueur listeJoueur : listeJoueurs) {
+			ToggleButton bJoueur = new ToggleButton(listeJoueur.getNom());
 			bJoueur.setToggleGroup(group);
 			bJoueur.setOnAction(new EventChoixJoueur(this));
-			bJoueur.setUserData(listeJoueurs.get(i));
+			bJoueur.setUserData(listeJoueur);
 
 			box.getChildren().add(bJoueur);
 			tabBoutonsJoueurs.add(bJoueur);
 		}
-
 		panneau.getChildren().add(box);
 	}
 
+	/**
+	 * Initialisation de la partie centrale de l'application
+	 * @param root BorderPane
+	 */
 	private void initPanneauPlateau(BorderPane root) {
 		Image image = uiPlateau.getImage();
 		grillePane = new Canvas(image.getWidth(), image.getHeight());
 		root.setCenter(grillePane);
 	}
 
+	/**
+	 * Création du plateau de jeu
+	 */
 	public Plateau p = new Plateau(listeJoueurs);
 
+	/**
+	 * Initialisation de la partie
+	 */
 	private void initPartie() {
-
+//todo
 		listeJoueurs.add(new Joueur("Han"));
 		listePions.add(new Pion("Bateau"));
 		listeJoueurs.get(0).setPion(listePions.get(0));
@@ -277,10 +319,18 @@ public class Monopoly extends Application {
 		uiPlateau = new UIPlateau(listePions);
 	}
 
+	/**
+	 * Lancement de l'initialisation
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * Fenetre de dialogue pour une action
+	 * @param message Message à afficher
+	 * @param erreur Vrai si action impossible, faux sinon
+	 */
 	public void DialogAction(String message, boolean erreur) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Achat d'un terrain");
@@ -296,6 +346,10 @@ public class Monopoly extends Application {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Initialisation de la boite dialogue
+	 * @param message Message à afficher
+	 */
 	public void DialogInfo(String message) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setHeaderText("");

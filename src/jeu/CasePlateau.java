@@ -1,5 +1,7 @@
 package jeu;
 
+import java.util.Objects;
+
 /** Toutes les cases dans le fichier csv deviennent des CasePlateau
  *
  */
@@ -63,7 +65,7 @@ public abstract class CasePlateau {
 
 	/** Toutes les cases ont une tache quand un joueur tombe dessus, peut ne rien faire
 	 * 
-	 * @param joueur
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	public abstract void tache(Joueur joueur) throws jeuException;
@@ -182,14 +184,14 @@ public abstract class CasePlateau {
 	}
 
 	/** Retourne une chaine de caractère qui montre un terrain achetable, 
-	 * 	affiché dans l'interface graphique dans liste propriétaires
+	 * 	affiché dans l'interface graphique dans la liste des propriétaires
 	 */
 	@Override
 	public String toString() {
 		String x = this.nom + "\nLoyer : " + this.getPrixLoyer();
-		if (this.getCouleur() == "COMP" || this.getCouleur() == "GARE")
+		if (Objects.equals(this.getCouleur(), "COMP") || Objects.equals(this.getCouleur(), "GARE"))
 			x = this.nom;
-		if (!(this.getCouleur().isEmpty() || this.getCouleur() == "GARE" || this.getCouleur() == "COMP"))
+		if (!(this.getCouleur().isEmpty() || Objects.equals(this.getCouleur(), "GARE") || Objects.equals(this.getCouleur(), "COMP")))
 			x = x + "€\nMaisons : " + this.getNbmaison();
 		if (this.isNbhotel())
 			x = x + "\nAvec Hôtel";

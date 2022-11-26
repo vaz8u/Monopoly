@@ -12,8 +12,6 @@ import parser.Parser;
  * Tout se passe dans cette méthode
  */
 public class Fichier {
-	
-
 	/**
 	 * Cette méthode ouvre le fichier (en faisant tous les contrôles nécessaires). Puis, elle boucle sur
 	 * chaque ligne et confie au parser le traitement de la ligne. S'il n'y a pas de parser,
@@ -39,7 +37,7 @@ public class Fichier {
 			while ((ligne = reader.readLine()) != null) {
 				// On a bien lu une ligne ue fichier, maintenant qu'est-ce qu'on en fait ??
 				if (parser==null)
-					// Si y a pas de parser, alors on ne sais vraiment pas quoi faire avec et on l'affiche...
+					// S'il n'y a pas de parser, alors on ne sait vraiment pas quoi faire avec et on l'affiche...
 					System.out.println("Ligne : "+ligne);
 				else
 					// Puisqu'on a un parser, on l'utilise. C'est lui qui traitera la ligne
@@ -55,7 +53,6 @@ public class Fichier {
 						e.printStackTrace();
 					}
 			}
-			
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();

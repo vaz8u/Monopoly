@@ -52,18 +52,18 @@ public class Plateau {
 	public Plateau(ArrayList<Joueur> listeJoueurs) {
 		String nomDuFichier = "Parametre/Terrains.csv";
 		Parser premierParser = null;
-		premierParser = new ParserCaseDepart(premierParser);
-		premierParser = new ParserGare(premierParser);
-		premierParser = new ParserTerrain(premierParser);
-		premierParser = new ParserChance(premierParser);
-		premierParser = new ParserCaisseCommunaute(premierParser);
-		premierParser = new ParserImpot(premierParser);
-		premierParser = new ParserSimpleVisite(premierParser);
-		premierParser = new ParserParkingGratuit(premierParser);
 		premierParser = new ParserAllerEnPrison(premierParser);
-		premierParser = new ParserTaxeDeLuxe(premierParser);
-		premierParser = new ParserPrison(premierParser);
+		premierParser = new ParserCaisseCommunaute(premierParser);
+		premierParser = new ParserCaseDepart(premierParser);
+		premierParser = new ParserChance(premierParser);
 		premierParser = new ParserCompagnie(premierParser);
+		premierParser = new ParserGare(premierParser);
+		premierParser = new ParserImpot(premierParser);
+		premierParser = new ParserParkingGratuit(premierParser);
+		premierParser = new ParserPrison(premierParser);
+		premierParser = new ParserSimpleVisite(premierParser);
+		premierParser = new ParserTaxeDeLuxe(premierParser);
+		premierParser = new ParserTerrain(premierParser);
 		for (int i = 0; i < 41; i++) {
 			getPlateau().add(new CaseDepart("ALLOC", -1));
 		}
@@ -85,7 +85,7 @@ public class Plateau {
 	
 	/**
 	 * Constructeur
-	 * 
+	 * <p>
 	 * Version sans joueurs, utilisé pour les tests
 	 */
 	public Plateau() {
@@ -119,11 +119,7 @@ public class Plateau {
 		Fichier.lire(nomDuFichier, troisiemeParser);
 	}
 
-	/**
-	 * Getters et setters
-	 * 
-	 * 
-	 */
+	// Getters et setters
 	public static ArrayList<Joueur> getParticipants() {
 		return participants;
 	}
@@ -159,7 +155,7 @@ public class Plateau {
 	/**
 	 * Montre les cases du plateau dans la console
 	 * 
-	 * @param plateau
+	 * @param plateau le plateau à afficher
 	 */
 	public void showPlateau(Plateau plateau) {
 		for (int i = 0; i < 41; i++) {
@@ -169,8 +165,7 @@ public class Plateau {
 
 	/**
 	 * Montre les cartes communauté dans la console
-	 * 
-	 * @param plateau
+	 * @param plateau le plateau à afficher
 	 */
 	public void showCartesComm(Plateau plateau) {
 		for (int i = 0; i < Plateau.getCommunaute().size(); i++) {
@@ -182,8 +177,7 @@ public class Plateau {
 
 	/**
 	 * Montre les cartes chance dans la console
-	 * 
-	 * @param plateau
+	 * @param plateau le plateau à afficher
 	 */
 	public void showCartesChance(Plateau plateau) {
 		for (int i = 0; i < Plateau.getCommunaute().size(); i++) {

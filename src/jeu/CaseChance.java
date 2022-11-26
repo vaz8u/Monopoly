@@ -17,7 +17,7 @@ public class CaseChance extends CasePlateau{
 	}
 	
 	/** Tire une carte chance et appele cette carte dans la classe CarteChance
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	@Override

@@ -14,8 +14,8 @@ public class CaseDepart extends CasePlateau {
 		this.setMessage(" ");
 	}
 	
-	/** Ne fait rien, le fait d'ajouter 200€ se fait sur dans la classe joueur quand il sort des limites du plateau.
-	 * @param Joueur Le joueur qui fait l'action
+	/** Ne fais rien, le fait d'ajouter 200€ se fait sur dans la classe joueur quand il sort des limites du plateau.
+	 * @param joueur Le joueur qui fait l'action
 	 */
 	@Override
 	public void tache(Joueur joueur) {

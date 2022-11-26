@@ -15,7 +15,7 @@ public class CaseImpots extends CasePlateau{
 	}
 	
 	/** Fait payer les impots au joueur
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 */
 	@Override
 	public void tache(Joueur joueur) {

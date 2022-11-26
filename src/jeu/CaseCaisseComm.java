@@ -15,7 +15,7 @@ public class CaseCaisseComm extends CasePlateau{
 	}
 	
 	/** Tire une carte caisse de la communauté et appele cette carte dans la classe CarteComm
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	@Override

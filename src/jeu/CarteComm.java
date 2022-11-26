@@ -13,7 +13,7 @@ public class CarteComm {
 	 */
 	private String phrase;
 	/**
-	 * Ou un nom de case, ou un chiffre pour payer/encaisser
+	 * Ou un nom de case ou un chiffre pour payer/encaisser
 	 */
 	private String deplacementConsequenses;
 	/**
@@ -23,9 +23,9 @@ public class CarteComm {
 
 	/** Constructeur
 	 * 
-	 * @param type
+	 * @param type Type de la carte
 	 * @param phrase Mot sur la carte
-	 * @param deplacementConsequenses Ou un nom de case, ou un chiffre pour payer/encaisser
+	 * @param deplacementConsequenses Ou un nom de case ou un chiffre pour payer/encaisser
 	 */
 	public CarteComm(String type, String phrase, String deplacementConsequenses) {
 		this.setType(type);
@@ -35,8 +35,8 @@ public class CarteComm {
 
 	/** Selon le type de la carte, fait l'action de la carte
 	 * 
-	 * @param joueur
-	 * @param carte
+	 * @param joueur Joueur qui tire la carte
+	 * @param cartes Tas de carte
 	 * @param p Les autres joueurs du plateau, pour l'anniversaire par exemple
 	 * @throws jeuException
 	 */
@@ -60,12 +60,10 @@ public class CarteComm {
 			break;
 		case "CHANCE":
 			joueur.setArgent(joueur.getArgent() - 10);
-			// CarteChance.tacheCarte(joueur,
-			// CarteChance.tirageCarteChance(Plateau.getChance()), p);
 			break;
 		case "ANNIVERSAIRE":
-			for (int a = 0; a < p.size(); a++) {
-				p.get(a).setArgent(p.get(a).getArgent() - 10);
+			for (Joueur value : p) {
+				value.setArgent(value.getArgent() - 10);
 				joueur.setArgent(joueur.getArgent() + 10);
 			}
 			break;
@@ -73,16 +71,16 @@ public class CarteComm {
 			joueur.setLiberation(true);
 			break;
 		case "DEPLACEMENT":
-			if (carte.getdeplacementConsequenses().equals("CASE DEPART")) {
-				joueur.setNumCaseActuelleADMIN(0);
-				joueur.setArgent(joueur.getArgent()+200);
-			}
-			if (carte.getdeplacementConsequenses().equals("BOULEVARD DE BELLEVILLE")) {
-				joueur.setNumCaseActuelleADMIN(1);
-				joueur.setArgent(joueur.getArgent()+200);
-			}
-			if (carte.getdeplacementConsequenses().equals("PRISON")) {
-				joueur.setNumCaseActuelleADMIN(30);
+			switch (carte.getdeplacementConsequenses()) {
+				case "CASE DEPART" -> {
+					joueur.setNumCaseActuelleADMIN(0);
+					joueur.setArgent(joueur.getArgent() + 200);
+				}
+				case "BOULEVARD DE BELLEVILLE" -> {
+					joueur.setNumCaseActuelleADMIN(1);
+					joueur.setArgent(joueur.getArgent() + 200);
+				}
+				case "PRISON" -> joueur.setNumCaseActuelleADMIN(30);
 			}
 			break;
 		}

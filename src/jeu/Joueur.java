@@ -12,59 +12,47 @@ public class Joueur {
 
 	/**
 	 * son nom
-	 * 
 	 */
 	private String nom;
 	/**
 	 * position du joueur
-	 * 
 	 */
 	private int numCaseActuelle;
 	/**
 	 * son argent
-	 * 
 	 */
 	private int argent;
 	/**
 	 * tous les terrains du joueur
-	 * 
 	 */
 	private ArrayList<CasePlateau> terrainsPossede;
 	/**
-	 * nombre de gares possédés par le joueur
-	 * 
+	 * nombre de gares possédé par le joueur
 	 */
 	private int gares;
 	/**
 	 * si il est en prison
-	 * 
 	 */
 	private boolean enPrison;
 	/**
-	 * si il possède les deux services publiques=true; false sinon
-	 * 
+	 * s'il possède les deux services publics=true ; false sinon
 	 */
 	private boolean servicePublic;
 	/**
-	 * enregistre son dernier déplacement, utile seulement pour calcul loyer si il
-	 * tombe sur un service public
-	 * 
+	 * enregistre son dernier déplacement, utile seulement pour calcul loyer s'il tombe sur un service public
 	 */
 	private int deplacement;
 	/**
-	 * =true si il possède une carte de libération de prison
-	 * 
+	 * =true s'il possède une carte de libération de prison
 	 */
 	private boolean liberation;
 	/**
 	 * son pion
-	 * 
 	 */
 	private Pion pion;
 
 	/**
 	 * Constructeur avec nom
-	 *
 	 * @param nom Le nom du joueur
 	 */
 	public Joueur(String nom) {
@@ -81,7 +69,6 @@ public class Joueur {
 
 	/**
 	 * Constructeur sans nom
-	 * 
 	 */
 	public Joueur() {
 		this.nom = "Joueur";
@@ -95,10 +82,8 @@ public class Joueur {
 		this.pion = null;
 	}
 
-	/*
-	 * getters et setters
-	 * 
-	 */
+
+	// getters et setters
 	public String getNom() {
 		return nom;
 	}
@@ -113,7 +98,6 @@ public class Joueur {
 
 	/**
 	 * additionne un nombre à la position actuelle du joueur
-	 * 
 	 * @param numCaseActuelle Position actuelle du joueur sur le plateau
 	 * @param joueur          Le joueur que l'on implique
 	 * @throws jeuException Si le déplacement est trop petit ou trop grand pour deux
@@ -130,7 +114,6 @@ public class Joueur {
 
 	/**
 	 * met le joueur à la case donnée sans prendre en compte sa case actuelle
-	 * 
 	 * @param nouvelleCase Nouvelle case du joueur
 	 * @throws jeuException La nouvelle case ne doit pas dépasser la taille du
 	 *                      plateau
@@ -209,17 +192,15 @@ public class Joueur {
 	// méthodes métiers
 
 	/**
-	 * Action d'acheter un hotel à la case T par le Joueur joueur
-	 * 
+	 * Action d'acheter un hotel à la case T par le Joueur
 	 * @param T      Case qui va etre achetée
 	 * @param joueur Joueur qui veut acheter
 	 * @throws jeuException Manque de fonds, si on ne possède pas le terrain, si on
-	 *                      a pas de monopole, si on a déjà un hotel.
+	 *                      n'a pas de monopole, si on a déjà un hotel.
 	 */
 	public void AcheterHotel(CasePlateau T, Joueur joueur) throws jeuException {
 		int y = 0;
 		int x;
-		boolean respmaison = false;
 		CasePlateau TB = T;
 		CasePlateau TC = T;
 		if (getArgent() < T.getPrixMaison())
@@ -231,34 +212,7 @@ public class Joueur {
 			throw new jeuException("Vous ne pouvez pas acheter d'hotel car vous n'avez pas de monopole.");
 		if (T.isNbhotel())
 			throw new jeuException("Vous avez deja un hotel sur ce terrain.");
-
-		switch (T.getCouleur()) {
-		case "MARRON":
-			respmaison = false;
-			break;
-		case "BLEU FONCE":
-			respmaison = false;
-			break;
-		case "VERT":
-			respmaison = true;
-			break;
-		case "JAUNE":
-			respmaison = true;
-			break;
-		case "ROUGE":
-			respmaison = true;
-			break;
-		case "ORANGE":
-			respmaison = true;
-			break;
-		case "VIOLET":
-			respmaison = true;
-			break;
-		case "BLEU CIEL":
-			respmaison = true;
-			break;
-		}
-		if (respmaison == false) {
+		if (isRespmaison(T)) {
 			for (y = 0; y < joueur.getTerrainsPossede().size(); y++) {
 				if (joueur.getTerrainsPossede().get(y).getCouleur().equals(T.getCouleur())
 						&& joueur.getTerrainsPossede().get(y).getPlace() != T.getPlace())
@@ -268,7 +222,7 @@ public class Joueur {
 				throw new jeuException(
 						"Vous ne pouvez pas acheter d'hotel car on ne peut pas avoir 2 maisons d'ecart entre les terrains d'une meme famille.");
 		}
-		if (respmaison == true) {
+		else {
 			for (y = 0; y < joueur.getTerrainsPossede().size(); y++) {
 				if (joueur.getTerrainsPossede().get(y).getCouleur().equals(T.getCouleur())
 						&& joueur.getTerrainsPossede().get(y).getPlace() != T.getPlace())
@@ -290,18 +244,20 @@ public class Joueur {
 		T.setPrixLoyer(T.getTabLoyer()[T.getNbmaison()]);
 	}
 
+	private boolean isRespmaison(CasePlateau T) {
+		return T.getCouleur().equals("MARRON") || T.getCouleur().equals("BLEU FONCE");
+	}
+
 	/**
-	 * Action d'acheter une maison à la case T par le Joueur joueur
-	 * 
+	 * Action d'acheter une maison à la case T par le Joueur
 	 * @param T      Case qui va etre achetée
 	 * @param joueur Joueur qui veut acheter
 	 * @throws jeuException Manque de fonds, si on ne possède pas le terrain, si on
-	 *                      a pas de monopole, si on a déjà 4 maisons.
+	 *                      n'a pas de monopole, si on a déjà 4 maisons.
 	 */
 	public void AcheterMaison(CasePlateau T, Joueur joueur) throws jeuException {
 		int y = 0;
 		int x;
-		boolean respmaison = false;
 		CasePlateau TB = T;
 		CasePlateau TC = T;
 		if (getArgent() < T.getPrixMaison())
@@ -310,48 +266,22 @@ public class Joueur {
 			throw new jeuException(
 					"Vous ne pouvez pas acheter de maison sur " + T.getNom() + " car vous ne le possedez pas.");
 		/* if (!(T.getProprietaire().getTerrainsPossede().get(getNumCaseActuelle()).isMonopole())) 
-			throw new jeuException("Vous ne pouvez pas acheter de maison car vous n'avez pas de monopole.");
-			*Mis en commentaire car bug sur l'interface graphique, les disable button s'en occupent.
+			throw new jeuException("Vous ne pouvez pas acheter de maison, car vous n'avez pas de monopole.");
+			*Mis en commentaire, bug sur l'interface graphique, les disable button s'en occupent.
 		*/
 		if (T.getNbmaison() >= 4)
 			throw new jeuException("Vous avez deja 4 maisons sur ce terrain.");
 
-		switch (T.getCouleur()) {
-		case "MARRON":
-			respmaison = false;
-			break;
-		case "BLEU FONCE":
-			respmaison = false;
-			break;
-		case "VERT":
-			respmaison = true;
-			break;
-		case "JAUNE":
-			respmaison = true;
-			break;
-		case "ROUGE":
-			respmaison = true;
-			break;
-		case "ORANGE":
-			respmaison = true;
-			break;
-		case "VIOLET":
-			respmaison = true;
-			break;
-		case "BLEU CIEL":
-			respmaison = true;
-			break;
-		}
-		if (respmaison == false) {
+		if (isRespmaison(T)) {
 			for (y = 0; y < joueur.getTerrainsPossede().size(); y++) {
 				if (joueur.getTerrainsPossede().get(y).getCouleur().equals(T.getCouleur())
 						&& joueur.getTerrainsPossede().get(y).getPlace() != T.getPlace())
 					TB = joueur.getTerrainsPossede().get(y);
 			}
-			if (!(maisonT2(T, TB, joueur)))
+			if (!(maisonT2(T, TB)))
 				throw new jeuException("On ne peut pas avoir 2 maisons d'ecart entre les terrains d'une meme famille.");
 		}
-		if (respmaison == true) {
+		else {
 			for (y = 0; y < joueur.getTerrainsPossede().size(); y++) {
 				if (joueur.getTerrainsPossede().get(y).getCouleur().equals(T.getCouleur())
 						&& joueur.getTerrainsPossede().get(y).getPlace() != T.getPlace())
@@ -363,7 +293,7 @@ public class Joueur {
 						&& joueur.getTerrainsPossede().get(x).getPlace() != TB.getPlace())
 					TC = joueur.getTerrainsPossede().get(x);
 			}
-			if (!(maisonT3(T, TB, TC, joueur)))
+			if (!(maisonT3(T, TB, TC)))
 				throw new jeuException("On ne peut pas avoir 2 maisons d'ecart entre les terrains d'une meme famille.");
 		}
 		T.setNbmaison(T.getNbmaison() + 1);
@@ -372,8 +302,7 @@ public class Joueur {
 	}
 
 	/**
-	 * Action d'acheter le terrain de la case T par le Joueur joueur
-	 * 
+	 * Action d'acheter le terrain de la case T par le joueur
 	 * @param T      Case qui va etre achetée
 	 * @param joueur Joueur qui veut acheter
 	 * @throws jeuException Manque de fonds, si terrain déjà acheté, si T n'est pas
@@ -392,24 +321,8 @@ public class Joueur {
 		T.setProprietaire(joueur);
 		getTerrainsPossede().add(T);
 		switch (T.getPlace()) {
-		case 35:
-			joueur.setGares(joueur.getGares() + 1);
-			break;
-		case 5:
-			joueur.setGares(joueur.getGares() + 1);
-			break;
-		case 15:
-			joueur.setGares(joueur.getGares() + 1);
-			break;
-		case 25:
-			joueur.setGares(joueur.getGares() + 1);
-			break;
-		case 12:
-			joueur.compagnieDouble(joueur);
-			break;
-		case 28:
-			joueur.compagnieDouble(joueur);
-			break;
+			case 35, 5, 15, 25 -> joueur.setGares(joueur.getGares() + 1);
+			case 12, 28 -> joueur.compagnieDouble(joueur);
 		}
 		joueur.Couleur(joueur);
 	}
@@ -432,7 +345,6 @@ public class Joueur {
 	/**
 	 * Test si le joueur dépasse les limites du terrain et le remet à la bonne place
 	 * et le fait simuler un passage par la case départ
-	 * 
 	 * @param joueur Joueur en question
 	 * @throws jeuException
 	 */
@@ -445,8 +357,7 @@ public class Joueur {
 
 	/**
 	 * Utile pour les tests, affiche l'arrayList des terrains du joueur
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 */
 	public void afficheTerrains(Joueur joueur) {
 		System.out.println("Le joueur " + joueur.getNom() + " possede les terrains :");
@@ -457,117 +368,84 @@ public class Joueur {
 
 	/**
 	 * Verifie si un joueur possede un monopole
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 */
 	public void Couleur(Joueur joueur) {
 		int marron = 0, bleuc = 0, violet = 0, orange = 0, rouge = 0, jaune = 0, vert = 0, bleuf = 0;
 
 		for (int x = 0; x < joueur.getTerrainsPossede().size(); x++) {
 			switch (joueur.getTerrainsPossede().get(x).getCouleur()) {
-			case "MARRON":
-				marron++;
-				break;
-			case "BLEU CIEL":
-				bleuc++;
-				break;
-			case "VIOLET":
-				violet++;
-				break;
-			case "ORANGE":
-				orange++;
-				break;
-			case "ROUGE":
-				rouge++;
-				break;
-			case "JAUNE":
-				jaune++;
-				break;
-			case "VERT":
-				vert++;
-				break;
-			case "BLEU FONCE":
-				bleuf++;
-				break;
+				case "MARRON" -> marron++;
+				case "BLEU CIEL" -> bleuc++;
+				case "VIOLET" -> violet++;
+				case "ORANGE" -> orange++;
+				case "ROUGE" -> rouge++;
+				case "JAUNE" -> jaune++;
+				case "VERT" -> vert++;
+				case "BLEU FONCE" -> bleuf++;
 			}
 		}
 		if (marron == 2) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur marron.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "MARRON":
+				if ("MARRON".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (bleuc == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur bleu claire.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "BLEU CIEL":
+				if ("BLEU CIEL".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (violet == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur violet.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "VIOLET":
+				if ("VIOLET".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (orange == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur orange.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "ORANGE":
+				if ("ORANGE".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (rouge == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur rouge.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "ROUGE":
+				if ("ROUGE".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (jaune == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur jaune.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "JAUNE":
+				if ("JAUNE".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (vert == 3) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur vert.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "VERT":
+				if ("VERT".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
 		if (bleuf == 2) {
 			System.out.println("Vous avez maintenant un monopole pour les terrains de couleur bleu foncé.");
 			for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
-				switch (joueur.getTerrainsPossede().get(y).getCouleur()) {
-				case "BLEU FONCE":
+				if ("BLEU FONCE".equals(joueur.getTerrainsPossede().get(y).getCouleur())) {
 					joueur.getTerrainsPossede().get(y).setMonopole(true);
-					break;
 				}
 			}
 		}
@@ -575,8 +453,7 @@ public class Joueur {
 
 	/**
 	 * Verifie si le joueur possede les deux compagnies
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 */
 	public void compagnieDouble(Joueur joueur) {
 		for (int y = 0; y < joueur.getTerrainsPossede().size(); y++) {
@@ -592,12 +469,11 @@ public class Joueur {
 
 	/**
 	 * Le joueur est sen prison et veut payer pour sortir
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 * @throws jeuException
 	 */
 	public void veutSortirPayer(Joueur joueur) throws jeuException {
-		if (joueur.isEnPrison() == false)
+		if (!joueur.isEnPrison())
 			throw new jeuException("Vous n'etes pas en prison.");
 		if (joueur.getArgent() < 50)
 			throw new jeuException("Vous n'avez pas assez d'argent.");
@@ -608,14 +484,13 @@ public class Joueur {
 
 	/**
 	 * Le joueur est sen prison et veut utiliser sa carte pour sortir
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 * @throws jeuException
 	 */
 	public void veutSortirCarte(Joueur joueur) throws jeuException {
-		if (joueur.isEnPrison() == false)
+		if (!joueur.isEnPrison())
 			throw new jeuException("Vous n'etes pas en prison.");
-		if (joueur.isLiberation() == false)
+		if (!joueur.isLiberation())
 			throw new jeuException("Vous n'avez pas de carte de libération.");
 		joueur.enPrison(false);
 		joueur.setNumCaseActuelleADMIN(10);
@@ -623,50 +498,36 @@ public class Joueur {
 	}
 
 	/**
-	 * Test utile dans AcheterMaison pour respecter une regle du jeux pour les
+	 * Test utile dans AcheterMaison pour respecter une regle du jeu pour les
 	 * monopoles à deux terrains
 	 * 
-	 * @param TA     Terrain où l'on ajoute une maison
-	 * @param TB     Terrain de la même couleur
-	 * @param joueur
-	 * @return
+	 * @param TA Terrain où l'on ajoute une maison
+	 * @param TB Terrain de la même couleur
+	 * @return true si le joueur possede les deux terrains de la même couleur
 	 */
-	public boolean maisonT2(CasePlateau TA, CasePlateau TB, Joueur joueur) {
-		boolean nbmaison;
-		if (TA.getNbmaison() <= (TB.getNbmaison()))
-			nbmaison = true;
-		else
-			nbmaison = false;
-		return nbmaison;
+	public boolean maisonT2(CasePlateau TA, CasePlateau TB) {
+		return TA.getNbmaison() <= (TB.getNbmaison());
 	}
 
 	/**
 	 * Test utile dans AcheterMaison pour respecter une regle du jeux pour les
 	 * monopoles à trois terrains
 	 * 
-	 * @param TA     Terrain où l'on ajoute une maison
-	 * @param TB     Terrain de la même couleur
-	 * @param TC     Terrain de la même couleur
-	 * @param joueur
-	 * @return
+	 * @param TA Terrain où l'on ajoute une maison
+	 * @param TB Terrain de la même couleur
+	 * @param TC Terrain de la même couleur
+	 * @return	true si le joueur possede les trois terrains de la même couleur
 	 */
-	public boolean maisonT3(CasePlateau TA, CasePlateau TB, CasePlateau TC, Joueur joueur) {
-		boolean nbmaison;
-		if ((TA.getNbmaison() <= (TB.getNbmaison())) && (TA.getNbmaison() <= (TC.getNbmaison())))
-			nbmaison = true;
-		else
-			nbmaison = false;
-		return nbmaison;
+	public boolean maisonT3(CasePlateau TA, CasePlateau TB, CasePlateau TC) {
+		return (TA.getNbmaison() <= (TB.getNbmaison())) && (TA.getNbmaison() <= (TC.getNbmaison()));
 	}
 
 	/**
 	 * Récapitule le joueur brièvement sous la forme d'une chaine de caractères
-	 * 
-	 * @param joueur
+	 * @param joueur Joueur en question
 	 * @return Résumé bref du joueur
 	 */
 	public String toString(Joueur joueur) {
 		return "Nom: " + joueur.getNom() + "\nArgent: " + joueur.getArgent() + "\nCase: " + joueur.getNumCaseActuelle();
 	}
-
 }

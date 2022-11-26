@@ -15,7 +15,7 @@ public class CaseAllerEnPrison extends CasePlateau{
 	}
 	
 	/** Envoie le joueur en prison
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 */
 	@Override
 	public void tache(Joueur joueur) {

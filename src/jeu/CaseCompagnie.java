@@ -1,6 +1,6 @@
 package jeu;
 /** Héritière case Plateau
-*	Gère le cases compagnie
+*	Gère les cases compagnie
 */
 public class CaseCompagnie extends CasePlateau{
 
@@ -19,7 +19,7 @@ public class CaseCompagnie extends CasePlateau{
 	}
 	
 	/** Gère le loyer de la case selon le nombre de compagnies possédés par le Joueur joueur.
-	 * @param Joueur Le joueur qui fait l'action
+	 * @param joueur Le joueur qui fait l'action
 	 * @throws jeuException
 	 */
 	@Override
@@ -27,19 +27,14 @@ public class CaseCompagnie extends CasePlateau{
 		
 		int loyer=4;
 		if(isEstAchete() && (getProprietaire()!=joueur)) {
-			
 			if(getProprietaire().isServicePublic()) 
 				loyer=10;
-			
 			setPrixLoyer(joueur.getDeplacement()*loyer);
-			
 			setMessage("La "+getNom()+"est possedée par "+getProprietaire().getNom()+", payez "+getPrixLoyer()+"€.");
-			
 			if(getPrixLoyer()<8) 
 				throw new jeuException("Le loyer de la compagnie n'est pas bien calculé.");
 			if(joueur.getArgent()-getPrixLoyer()<1)
 				throw new jeuException("Le joueur "+joueur.getNom()+" n'a plus d'argent !");
-			
 			joueur.setArgent(joueur.getArgent()-getPrixLoyer());
 			getProprietaire().setArgent(getPrixLoyer() + getProprietaire().getArgent());
 		}
